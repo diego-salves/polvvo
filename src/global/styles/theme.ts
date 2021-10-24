@@ -13,7 +13,7 @@ export default {
             light: '#9FFFEE',
             dark: '#20B096',
         },
-        sucess: {
+        success: {
             main: '#12A454',
             light: 'rgba(18, 164, 84, 0.5)',
         },
@@ -21,7 +21,7 @@ export default {
             main: '#E83F5B',
             light: 'rgba(232, 63, 91, 0.5)',
         },
-        shape: '#E7F0F0',
+        shape: '#D8E2E2',
         title: '#363F5F',
         text: '#969CB2',
         text_dark: '#000000',

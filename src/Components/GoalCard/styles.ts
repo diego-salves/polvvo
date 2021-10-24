@@ -26,7 +26,7 @@ export const Amount = styled.Text<GoalProps>`
     font-family: ${({ theme }) => theme.fonts.regular};
     
     color: ${({ theme, type }) => 
-    type === 'positive' ? theme.colors.sucess.main : theme.colors.attention.main};
+    type === 'positive' ? theme.colors.success.main : theme.colors.attention.main};
 `;
 
 export const Footer = styled.View`
