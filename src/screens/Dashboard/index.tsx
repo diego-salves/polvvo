@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { useFocusEffect } from '@react-navigation/native'
 import { HighLightcard } from "../../components/HighLightCard";
 import { GoalCard, GoalCardProps } from "../../components/GoalCard";
 
@@ -34,11 +36,13 @@ export function Dashboard(){
 
         const transactionsFormatted: DataListProps[] = transactions
         .map((item: DataListProps) => {
-            const amount = Number(item.amount)
-            .toLocaleString('pt-BR', {
+            let amount = Number(item.amount)
+            .toLocaleString('pt-Br', {
                 style: 'currency',
-                currency: 'BRL'
+                currency: 'BRL',
             });
+
+            amount =amount.replace('R$', 'R$ ');
 
             const date = Intl.DateTimeFormat('pt-br',{
                 day: '2-digit',
@@ -56,14 +60,20 @@ export function Dashboard(){
             }
 
         });
+        
 
         setData(transactionsFormatted);
+        console.log(transactionsFormatted)
 
     }
     
     useEffect(() => {
         loadTransactions();
     }, [])
+
+    useFocusEffect(useCallback(() => {
+        loadTransactions();
+    },[]));
 
     return(
       <Container>
@@ -115,7 +125,6 @@ export function Dashboard(){
                 keyExtractor={ item => item.id}
                 renderItem={({ item }) => <GoalCard data={item} />} 
             />
-
         </Goals>
       </Container>
     )
