@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { HighLightcard } from "../../components/HighLightCard";
 import { GoalCard, GoalCardProps } from "../../components/GoalCard";
 
@@ -25,41 +25,16 @@ export interface DataListProps extends GoalCardProps {
 }
 
 export function Dashboard(){
-    const data: DataListProps[] = [
-      {
-        id: '1',
-        type: 'positive',
-        title: "Matemática",
-        amount: "R$50,00",
-        category: {
-            name: 'Escola',
-            icon: 'edit'
-        },
-        date: "23/10/2021",
-      },
-      {
-        id: '2',
-        type: 'negative',
-        title: "História",
-        amount: "R$30,00",
-        category: {
-            name: 'Escola',
-            icon: 'edit'
-        },
-        date: "23/10/2021",
-      },
-      {
-        id: '3',
-        type: 'negative',
-        title: "Tarefas Domésticas",
-        amount: "R$20,00",
-        category: {
-            name: 'Casa',
-            icon: 'home'
-        },
-        date: "23/10/2021",
-      },
-    ];
+    const [data, setData] = useState<DataListProps[]>();
+
+    async function loadTransactions(){
+        const dataKey = '@polvvo:transactions';
+        const transactions = await AsyncStorage.getItem(dataKey);
+    }
+    
+    useEffect(() => {
+        loadTransactions();
+    }, [])
 
     return(
       <Container>
