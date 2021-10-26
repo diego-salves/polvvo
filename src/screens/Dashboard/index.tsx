@@ -16,7 +16,8 @@ import {
     HighLightCards,
     Goals,
     Title,
-    GoalList
+    GoalList,
+    LogoutButton
 } from './styles'
 
 export interface DataListProps extends GoalCardProps {
@@ -73,9 +74,9 @@ export function Dashboard(){
                         <UserName>Diego</UserName>
                     </User>
                 </UserInfo>
-
-                <Icon name="power"/>
-
+                <LogoutButton onPress={() => {}}>
+                    <Icon name="power"/>
+                </LogoutButton>
               </UserWrapper>
           </Header>
 
