@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native'
 import { HighLightcard } from "../../components/HighLightCard";
 import { GoalCard, GoalCardProps } from "../../components/GoalCard";
@@ -19,23 +21,48 @@ import {
     Goals,
     Title,
     GoalList,
-    LogoutButton
+    LogoutButton,
+    LoadContainer
 } from './styles'
 
 export interface DataListProps extends GoalCardProps {
     id: string;
 }
 
+interface HighlightProps {
+    amount: string;
+}
+
+interface HighlightData {
+    entries: HighlightProps;
+    expensives: HighlightProps;
+    total: HighlightProps;
+}
+
 export function Dashboard(){
-    const [data, setData] = useState<DataListProps[]>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [transactions, setTransactions] = useState<DataListProps[]>([]);
+    const [highlightData, sethighlightData] = useState<HighlightData>({} as HighlightData);
+
+    const theme = useTheme();
 
     async function loadTransactions(){
         const dataKey = '@polvvo:transactions';
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
 
+        let entriesTotal = 0;
+        let expensiveTotal = 0;
+
         const transactionsFormatted: DataListProps[] = transactions
         .map((item: DataListProps) => {
+
+            if(item.type === 'positive'){
+                entriesTotal += Number(item.amount);
+            }else {
+                expensiveTotal += Number(item.amount);
+            }
+
             let amount = Number(item.amount)
             .toLocaleString('pt-Br', {
                 style: 'currency',
@@ -62,8 +89,32 @@ export function Dashboard(){
         });
         
 
-        setData(transactionsFormatted);
-        console.log(transactionsFormatted)
+        setTransactions(transactionsFormatted);
+
+        const total = entriesTotal - expensiveTotal; 
+
+        sethighlightData({
+            entries: {
+                amount: entriesTotal.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })
+            },
+            expensives: {
+                amount: expensiveTotal.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })
+            },
+            total: {
+                amount: total.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+            })
+          }
+        });
+        
+        setIsLoading(false);
 
     }
     
@@ -77,55 +128,66 @@ export function Dashboard(){
 
     return(
       <Container>
-          <Header>
-              <UserWrapper>
-                <UserInfo>
-                    <Photo 
-                        source={{ uri: 'https://media-exp1.licdn.com/dms/image/C560BAQETWSn5Oeg8ow/company-logo_200_200/0/1633962448032?e=1643241600&v=beta&t=ySKdiLO0y5LICQtNfFMTF5JU8QROeVFRZO2w1S9A0No'}} 
-                    />
-                    <User>
-                        <UserGreeting>Olá, </UserGreeting>
-                        <UserName>Diego</UserName>
-                    </User>
-                </UserInfo>
-                <LogoutButton onPress={() => {}}>
-                    <Icon name="power"/>
-                </LogoutButton>
-              </UserWrapper>
-          </Header>
+        {
+            isLoading ? 
+            <LoadContainer>
+               <ActivityIndicator 
+                color={theme.colors.primary.dark}
+                size="large" 
+                />
+            </LoadContainer> :
+          <>
+            <Header>
+                <UserWrapper>
+                    <UserInfo>
+                        <Photo 
+                            source={{ uri: 'https://media-exp1.licdn.com/dms/image/C560BAQETWSn5Oeg8ow/company-logo_200_200/0/1633962448032?e=1643241600&v=beta&t=ySKdiLO0y5LICQtNfFMTF5JU8QROeVFRZO2w1S9A0No'}} 
+                        />
+                        <User>
+                            <UserGreeting>Olá, </UserGreeting>
+                            <UserName>Diego</UserName>
+                        </User>
+                    </UserInfo>
+                    <LogoutButton onPress={() => {}}>
+                        <Icon name="power"/>
+                    </LogoutButton>
+                </UserWrapper>
+            </Header>
 
-        <HighLightCards>
+            <HighLightCards>
 
-            <HighLightcard 
-                type="up"
-                title="Entradas" 
-                amount="R$ 100,00" 
-                lastTransaction="Última entrada dia 13 de abril"
-            />
-            <HighLightcard
-                type="down" 
-                title="Saídas" 
-                amount="R$ 50,00" 
-                lastTransaction="Última saída dia 03 de abril"
-            />
-            <HighLightcard
-                type="total"
-                title="Total" 
-                amount="R$ 1000,00" 
-                lastTransaction="01 à 16 de abril"
-            />
+                <HighLightcard 
+                    type="up"
+                    title="Entradas" 
+                    amount={highlightData.entries.amount}
+                    lastTransaction="Última entrada dia 13 de abril"
+                />
+                <HighLightcard
+                    type="down" 
+                    title={"Saídas"} 
+                    amount={highlightData.expensives.amount} 
+                    lastTransaction="Última saída dia 03 de abril"
+                />
+                <HighLightcard
+                    type="total"
+                    title="Total" 
+                    amount={highlightData.total.amount} 
+                    lastTransaction="01 à 16 de abril"
+                />
 
-        </HighLightCards>
+            </HighLightCards>
 
-        <Goals>
-            <Title>Listagem de metas</Title>
+            <Goals>
+                <Title>Listagem de metas</Title>
 
-            <GoalList 
-                data={data}
-                keyExtractor={ item => item.id}
-                renderItem={({ item }) => <GoalCard data={item} />} 
-            />
-        </Goals>
+                <GoalList 
+                    data={transactions}
+                    keyExtractor={ item => item.id}
+                    renderItem={({ item }) => <GoalCard data={item} />} 
+                />
+            </Goals>
+          </>
+        }
       </Container>
     )
 }
