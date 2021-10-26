@@ -18,7 +18,7 @@ interface Category {
 
 export interface GoalCardProps {
     type: 'positive' | 'negative';
-    title: string;
+    name: string;
     amount: string;
     category: Category;
     date: string;
@@ -32,7 +32,7 @@ export function GoalCard({ data } : Props){
     return (
         <Container>
             <Title>
-                {data.title}
+                {data.name}
             </Title>
 
             <Amount type={data.type}>
