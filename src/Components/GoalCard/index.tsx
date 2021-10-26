@@ -16,7 +16,7 @@ interface Category {
     icon: string;
 }
 
-interface Data {
+export interface GoalCardProps {
     type: 'positive' | 'negative';
     title: string;
     amount: string;
@@ -25,7 +25,7 @@ interface Data {
 }
 
 interface Props {
-    data: Data;
+    data: GoalCardProps;
 }
 
 export function GoalCard({ data } : Props){

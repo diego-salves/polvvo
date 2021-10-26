@@ -1,7 +1,7 @@
 import React from "react";
 
-import { HighLightcard } from "../../Components/HighLightCard";
-import { GoalCard, GoalCardProps } from "../../Components/GoalCard";
+import { HighLightcard } from "../../components/HighLightCard";
+import { GoalCard, GoalCardProps } from "../../components/GoalCard";
 
 import {
     Container,
