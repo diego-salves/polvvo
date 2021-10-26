@@ -12,27 +12,27 @@ interface ContainerProps {
     type: 'up' | 'down';
 } 
 
-export const Container = styled(RectButton)<ContainerProps>`
+export const Container = styled.View<ContainerProps>`
     width: 48%;
-
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
 
     border-width: ${({ isActive }) => isActive ? 0 : 1.5}px;
     border-style: solid;
     border-color: ${({ theme }) => theme.colors.primary.light};
     border-radius: 8px;
 
-    padding: 16px;
-
     ${({ isActive, type }) => isActive && type === 'up' && css`
         background-color: ${({ theme }) => theme.colors.success.light};
     `};
-
     ${({ isActive, type }) => isActive && type === 'down' && css`
         background-color: ${({ theme }) => theme.colors.attention.light};
     `};
+`;
+
+export const Button = styled(RectButton)`
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
 `;
 
 export const Icon = styled(Feather)<IconProps>`
