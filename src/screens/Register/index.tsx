@@ -92,7 +92,6 @@ export function Register(){
 
         try {
             const dataKey = '@polvvo:transactions'
-            
             const data = await AsyncStorage.getItem(dataKey); 
             const currentData = data ? JSON.parse(data) : [];
 
