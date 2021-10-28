@@ -63,3 +63,8 @@ export const ButtonContainer = styled.View`
     width: 100%;
     top: 30%;
     `;
+
+export const LoadingContainer = styled.View`
+    width: 100%;
+    top: 40%;
+`;

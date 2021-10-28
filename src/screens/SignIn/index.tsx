@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { ActivityIndicator, Alert } from "react-native";
 import { 
     View,
     Image,
@@ -12,8 +13,11 @@ import {
     ImageContainer,
     Button,
     ButtonContainer,
-    ButtonText
+    ButtonText,
+    LoadingContainer,
 } from './styles'
+
+import { useTheme } from 'styled-components';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -21,9 +25,20 @@ import google from '../../assets/google.png';
 import logo from '../../assets/icon_Polvvo_circulado.png';
 
 export function SignIn(){
-  const { user } = useAuth();
-  console.log(user.name);
+  const [isLoading, setIsLoading] = useState(false);
+  const { signInWithGoogle } = useAuth();
+  const theme = useTheme();
 
+  async function handleSignInWithGoogle(){
+    try {
+      setIsLoading(true);
+       return await signInWithGoogle();
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Não foi possível conectar a conta Google');
+      setIsLoading(false);
+    }
+  }
 
   return (
     <>
@@ -36,16 +51,24 @@ export function SignIn(){
         <Introduction>Faça seu login com sua conta Google</Introduction> 
 
         <ButtonContainer>
-          <Button>
+          <Button onPress={handleSignInWithGoogle}>
             <Image
               source={google}
               style={styles.buttonImageIconStyle}
             />
             <View style={styles.buttonIconSeparatorStyle} />
             <ButtonText>Entrar com conta Google</ButtonText>
-          
           </Button>
         </ButtonContainer>
+
+        { isLoading && 
+          <LoadingContainer>
+            <ActivityIndicator 
+              color={theme.colors.primary.main} 
+              size='large' 
+              />
+          </LoadingContainer>
+      }
       </Container>
     </>
   );

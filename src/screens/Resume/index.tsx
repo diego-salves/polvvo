@@ -22,6 +22,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { addMonths, subMonths, format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from "../../hooks/auth";
 
 interface TransactionData {
     type: 'positive' | 'negative';
@@ -47,6 +48,7 @@ export function Resume(){
     const [totalByCategories, setTotalByCategories ] = useState<CategoryData[]>([]);
 
     const theme = useTheme();
+    const { user } = useAuth();
 
     function handleDateChange(action: 'next' | 'prev'){
         if(action === 'next'){
@@ -58,7 +60,7 @@ export function Resume(){
 
     async function loadData() {
         setIsLoading(true);
-        const dataKey = '@polvvo:transactions'
+        const dataKey = `@polvvo:transactions_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey); 
         const responseFormatted = response ? JSON.parse(response) : [];
         
@@ -74,7 +76,7 @@ export function Resume(){
             return acumullator + Number(expensive.amount);
         }, 0);
 
-        const totalByCategories: CategoryData[] = [];
+        const totalByCategory: CategoryData[] = [];
         
         categories.forEach(category => {
             let categorySum = 0;
@@ -87,7 +89,8 @@ export function Resume(){
             });
             
             if(categorySum > 0){
-                const totalFormatted = categorySum.toLocaleString('pt-BR', {
+                const totalFormatted = categorySum
+                .toLocaleString('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
                 })
@@ -96,7 +99,7 @@ export function Resume(){
 
 
 
-                totalByCategories.push({
+                totalByCategory.push({
                     key: category.key,
                     name: category.name,
                     color: category.color,
@@ -107,7 +110,7 @@ export function Resume(){
             }
         });
 
-    setTotalByCategories(totalByCategories);
+    setTotalByCategories(totalByCategory);
     setIsLoading(false);
 
     }
