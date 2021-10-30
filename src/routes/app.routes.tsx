@@ -58,7 +58,7 @@ export function AppRoutes(){
                 options={{
                     tabBarIcon: (({ size, color }) => 
                         <MaterialIcons 
-                            name="pie-chart"
+                            name="star"
                             size={size}
                             color={color}
                         />

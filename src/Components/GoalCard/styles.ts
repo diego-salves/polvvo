@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
-import { Feather } from '@expo/vector-icons';
+import { Feather, AntDesign } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { RectButton } from 'react-native-gesture-handler';
 
 interface GoalProps {
     type: 'positive' | 'negative'; 
@@ -56,4 +57,24 @@ export const Date = styled.Text`
     font-size: ${RFValue(14)}px;
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const IconButton = styled(RectButton)`
+width: 20px;
+height: 20px;
+align-items: center;
+justify-content: center;
+`;
+
+export const Header = styled.View`
+width: 100%;
+justify-content: space-between;
+flex-direction: row;
+`;
+
+export const Collumn = styled.View``;
+
+export const IconClose = styled(AntDesign)`
+font-size: ${RFValue(15)}px;
+color: ${({ theme }) => theme.colors.text};
 `;

@@ -1,4 +1,5 @@
 import React from "react";
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { categories } from "../../utils/categories";
 
 import { 
@@ -10,9 +11,14 @@ import {
     Icon,
     CategoryName,
     Date,
+    IconClose,
+    Header,
+    Collumn,
+    IconButton,
 } from './styles'
 
 export interface GoalCardProps {
+    id: string;
     type: 'positive' | 'negative';
     name: string;
     amount: string;
@@ -20,17 +26,19 @@ export interface GoalCardProps {
     date: string;
 }
 
-interface Props {
+interface Props extends RectButtonProps {
     data: GoalCardProps;
 }
 
-export function GoalCard({ data } : Props){
+export function GoalCard({ data, ...rest } : Props){
     const[ category ] = categories.filter(
         item => item.key === data.category
     );
 
     return (
         <Container>
+            <Header>
+            <Collumn>
             <Title>
                 {data.name}
             </Title>
@@ -39,11 +47,20 @@ export function GoalCard({ data } : Props){
                 { data.type==='negative' && '- '}
                 { data.amount }
             </Amount>
+            </Collumn>  
+            
+            <IconButton 
+                {...rest}>
+                <IconClose name={"close"}/>
+            </IconButton>
+            
+            
+            </Header>
 
             <Footer>
                 <Category>
                     <Icon name={category.icon}/>
-                    <CategoryName>
+                    <CategoryName type={data.type}>
                         {category.name}
                     </CategoryName>
                 </Category>
