@@ -11,12 +11,11 @@ export const Container = styled.View`
 export const Title = styled.Text`
     width: 100%;
     font-size: ${RFValue(32)}px;
-    align-self: center;
     font-family: ${({ theme }) => theme.fonts.bold};
     position: absolute;
-    width: 160px;
-    height: 44px;
+    text-align: center;
     top: 8%;
+    margin-bottom: 10px;
     color: ${({ theme }) => theme.colors.text_dark};
 `;
 
@@ -33,13 +32,14 @@ export const Introduction = styled.Text`
 `;
 
 export const ImageContainer = styled.View`
-    top: 15%;
+    top: 16%;
     flex: 0.25;
     width: 100%;
     height: 70%;
     justify-content: center;
     align-items: center;
     align-self: center;
+    margin: 10px;
 `;
 
 export const Button = styled(RectButton)`
