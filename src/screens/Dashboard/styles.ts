@@ -9,7 +9,7 @@ import { DataListProps } from '.';
 
 export const Container = styled.View`
     flex: 1;  
-    background-color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.secondary.main};
 `;
 
 export const Header = styled.View`
@@ -80,7 +80,7 @@ export const HighLightCards = styled.ScrollView.attrs({
     margin-top: ${RFPercentage(20)}px;
 `;
 export const Goals = styled.View`
-    flex: 1%;
+    flex: 1;
     padding: 0 24px;
 
     margin-top: ${RFPercentage(12)}px;

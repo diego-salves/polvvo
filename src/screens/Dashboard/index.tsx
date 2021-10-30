@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Alert } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { FlatList } from 'react-native-gesture-handler';
+import { 
+    parseISO, 
+    format, 
+  } from 'date-fns';
 import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native'
 import { HighLightcard } from "../../components/HighLightCard";
@@ -46,9 +50,9 @@ export function Dashboard(){
     const [isLoading, setIsLoading] = useState(true);
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
     const [highlightData, sethighlightData] = useState<HighlightData>({} as HighlightData);
-
     const theme = useTheme();
     const { signOut, user } = useAuth();
+    const dataKey = `@polvvo:transactions_user:${user.id}`;
 
 
     function getLastTransactionDate(
@@ -69,7 +73,6 @@ export function Dashboard(){
     }
 
     async function loadTransactions(){
-        const dataKey = `@polvvo:transactions_user:${user.id}`;
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
 
@@ -100,7 +103,7 @@ export function Dashboard(){
             }).format(new Date(item.date));
 
             return {
-                id: item.id,
+                id: String(item.id),
                 name: item.name,
                 amount,
                 type: item.type,
@@ -111,16 +114,11 @@ export function Dashboard(){
 
         setTransactions(transactionsFormatted);
 
-
         const lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
         const lastTransactionExpensives = getLastTransactionDate(transactions, 'negative');
-        
-        
         const totalInterval = lastTransactionExpensives === 0 
         ? 'Não há transações' 
         : `01 a ${lastTransactionExpensives}`;
-
-
 
         const total = entriesTotal - expensiveTotal; 
 
@@ -155,14 +153,48 @@ export function Dashboard(){
         setIsLoading(false);
 
     }
+
+    async function handleRemoveSkill(transactionId: string) {
+        const response = await AsyncStorage.getItem(dataKey);
+        const storagedTransactions = response ? JSON.parse(response) : [];
+       
+        const filteredTransactions = storagedTransactions
+        .filter((transaction: DataListProps) => transaction.id !== transactionId);
+      
+        setTransactions(filteredTransactions);
+        await AsyncStorage.setItem(dataKey, JSON.stringify(filteredTransactions));
+  
+        loadTransactions()
+        }
+        function alerta(name: string, id: string,) {
+          Alert.alert(`Você deseja deletar ${String(name)} ?`,
+          "",
+          [
+            {text: 'Cancelar', },
+            {text: 'Deletar', onPress: () => handleRemoveSkill(id) },
+          ],
+            {cancelable: false}
+          )}
+  
+  
+        function logOff() {
+          {
+            Alert.alert(`Desconectar?`,
+            "",
+            [
+              {text: 'Cancelar', },
+              {text: 'Desconectar', onPress: () =>  signOut()},
+            ],
+              {cancelable: false}
+            )}
+        }
+  
     
     useEffect(() => {
         loadTransactions();
     }, [])
 
-    useFocusEffect(useCallback(() => {
-        loadTransactions();
-    },[]));
+    useFocusEffect(useCallback(() => {loadTransactions()},[]));
 
     return(
       <Container>
@@ -174,58 +206,61 @@ export function Dashboard(){
                 size="large" 
                 />
             </LoadContainer> :
-          <>
-            <Header>
-                <UserWrapper>
-                    <UserInfo>
-                        <Photo 
-                            source={{ uri: user.photo}} 
-                        />
-                        <User>
-                            <UserGreeting>Olá, </UserGreeting>
-                            <UserName>{user.name}</UserName>
-                        </User>
-                    </UserInfo>
-                    <LogoutButton onPress={signOut}>
-                        <Icon name="power"/>
-                    </LogoutButton>
-                </UserWrapper>
-            </Header>
+            <>
+                <Header>
+                    <UserWrapper>
+                        <UserInfo>
+                            <Photo 
+                                source={{ uri: user.photo}} 
+                            />
+                            <User>
+                                <UserGreeting>Olá, </UserGreeting>
+                                <UserName>{user.name}</UserName>
+                            </User>
+                        </UserInfo>
+                        <LogoutButton onPress={logOff}>
+                            <Icon name="power"/>
+                        </LogoutButton>
+                    </UserWrapper>
+                </Header>
 
-            <HighLightCards>
+                <HighLightCards>
 
-                <HighLightcard 
-                    type="up"
-                    title="Entradas" 
-                    amount={highlightData.entries.amount}
-                    lastTransaction={highlightData.entries.lastTransaction}
-                />
-                <HighLightcard
-                    type="down" 
-                    title={"Saídas"} 
-                    amount={highlightData.expensives.amount} 
-                    lastTransaction={highlightData.expensives.lastTransaction}
-                />
-                <HighLightcard
-                    type="total"
-                    title="Total" 
-                    amount={highlightData.total.amount} 
-                    lastTransaction={highlightData.total.lastTransaction}
-                />
+                    <HighLightcard 
+                        type="up"
+                        title="Entradas" 
+                        amount={highlightData.entries.amount}
+                        lastTransaction={highlightData.entries.lastTransaction}
+                    />
+                    <HighLightcard
+                        type="down" 
+                        title={"Saídas"} 
+                        amount={highlightData.expensives.amount} 
+                        lastTransaction={highlightData.expensives.lastTransaction}
+                    />
+                    <HighLightcard
+                        type="total"
+                        title="Total" 
+                        amount={highlightData.total.amount} 
+                        lastTransaction={highlightData.total.lastTransaction}
+                    />
 
-            </HighLightCards>
+                </HighLightCards>
 
-            <Goals>
-                <Title>Listagem de metas</Title>
+                <Goals>
+                    <Title>Listagem de metas</Title>
 
-                <GoalList 
-                    data={transactions}
-                    keyExtractor={ item => item.id}
-                    renderItem={({ item }) => <GoalCard data={item} />} 
-                />
-            </Goals>
-          </>
-        }
+                    <GoalList 
+                        data={transactions}
+                        keyExtractor={ item => item.id}
+                        renderItem={({ item }) => <GoalCard
+                        onPress={ () => alerta(item.name, item.id)}
+                        data={item} />}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </Goals>
+            </>
+            }
       </Container>
     )
 }
