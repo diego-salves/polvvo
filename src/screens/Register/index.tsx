@@ -22,6 +22,8 @@ import {
     Form,
     Fields,
     TransactionsTypes,
+    LabelMeta,
+    LabelRecompensa,
  } from './styles';
 import { useAuth } from "../../hooks/auth";
 
@@ -112,7 +114,7 @@ export function Register(){
                 name: 'Categoria'
             });
 
-            navigation.navigate('Listagem');
+            navigation.navigate('Metas');
 
         } catch (error) {
             console.log(error);
@@ -132,32 +134,33 @@ export function Register(){
 
                 <Form>
                     <Fields>
+                    <LabelMeta> Meta</LabelMeta>
                         <InputForm 
                             name="name"
                             control={control}
-                            placeholder="Meta"
+                            placeholder="Ex: Nota de Inglês..."
                             autoCapitalize="sentences"
                             autoCorrect={false}
                             error={errors.name && errors.name.message}
                         />
+                    <LabelRecompensa> Recompensa</LabelRecompensa>
                         <InputForm 
                             name="amount"
                             control={control}
-                            placeholder="Recompensa"
+                            placeholder="Ex: 20, 50... "
                             keyboardType="numeric"
                             error={errors.amount && errors.amount.message}
                         />
-
                         <TransactionsTypes>
                             <TransactionTypeButton 
                                 type="up"
-                                title="Income"
+                                title="Nova meta"
                                 onPress={() => handleTransactionTypeSelect('positive')}
                                 isActive={transactionType === 'positive'}
                             />
                             <TransactionTypeButton 
                                 type="down"
-                                title="Outcome"
+                                title="Meta não atingida"
                                 onPress={() => handleTransactionTypeSelect('negative')}
                                 isActive={transactionType === 'negative'}
                             />

@@ -12,18 +12,21 @@ export default {
             dark: '#20B096',
         },
         success: {
-            main: '#12A454',
-            light: 'rgba(18, 164, 84, 0.5)',
+            main: '#FF840A',
+            light: '#FFB46A',
+            dark: '#A95C10',
         },
         attention: {
-            main: '#E83F5B',
-            light: 'rgba(232, 63, 91, 0.5)',
+            main: '#FF416E',
+            light: '#FF94AD',
+            dark: '#91243E',
         },
         shape: '#D8E2E2',
         title: '#363F5F',
         text: '#969CB2',
         text_dark: '#0A0606',
-        background: '#E7F0F0'
+        background: '#E7F0F0',
+        card: '#C4C4C4',
     },
 
     fonts: {

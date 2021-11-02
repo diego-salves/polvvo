@@ -10,24 +10,29 @@ interface GoalProps {
 
 export const Container = styled.View`
     background-color: ${({ theme }) => theme.colors.shape};
-    border-radius: 5px;
+    border-radius: 16px;
 
-    padding: 17px 24px;
+    padding: 14px 24px;
     margin-bottom: 16px;
+    
+    /* may broke the app: */
+
+    elevation: 4;
 `;
 
 export const Title = styled.Text`
-    font-size: ${RFValue(14)}px;
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-size: ${RFValue(20)}px;
+    font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const Amount = styled.Text<GoalProps>`
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(18)}px;
     margin-top: 2px;
     font-family: ${({ theme }) => theme.fonts.regular};
     
     color: ${({ theme, type }) => 
-    type === 'positive' ? theme.colors.success.main : theme.colors.attention.main};
+    type === 'positive' ? theme.colors.success.main : theme.colors.success.main};
+    padding-bottom: 15px;
 `;
 
 export const Footer = styled.View`
@@ -48,13 +53,13 @@ export const Icon = styled( Feather )`
 `;
 
 export const CategoryName = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(15)}px;
     color: ${({ theme }) => theme.colors.text};
     margin-left: 17px;
 `;
 
 export const Date = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(15)}px;
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.regular};
 `;

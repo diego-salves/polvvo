@@ -44,8 +44,9 @@ export function GoalCard({ data, ...rest } : Props){
             </Title>
 
             <Amount type={data.type}>
-                { data.type==='negative' && '- '}
-                { data.amount }
+                { data.type==='negative' && 'Recompensa: '}
+                { data.type==='positive' && 'Recompensa: '}
+                {  data.amount } 
             </Amount>
             </Collumn>  
             

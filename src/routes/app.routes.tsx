@@ -28,7 +28,7 @@ export function AppRoutes(){
             }}
         >
             <Screen 
-                name="Listagem"
+                name="Metas"
                 component={Dashboard}
                 options={{
                     tabBarIcon: (({ size, color }) => 
@@ -41,12 +41,12 @@ export function AppRoutes(){
                 }}
             />
             <Screen 
-                name="Cadastrar"
+                name="Nova meta"
                 component={Register}
                 options={{
                     tabBarIcon: (({ size, color }) => 
                         <MaterialIcons 
-                            name="school"
+                            name="create-new-folder"
                             size={size}
                             color={color}
                         />
@@ -54,12 +54,12 @@ export function AppRoutes(){
                 }}
             />
             <Screen 
-                name="Resumo"
+                name="Calendário"
                 component={Development}
                 options={{
                     tabBarIcon: (({ size, color }) => 
                         <MaterialIcons 
-                            name="star"
+                            name="calendar-today"
                             size={size}
                             color={color}
                         />

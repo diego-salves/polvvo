@@ -37,7 +37,7 @@ export const Button = styled(RectButton)`
 
 export const Icon = styled(Feather)<IconProps>`
     font-size: ${RFValue(24)}px;
-    margin-right: 12px;
+    margin-right: 4px;
 
     color: ${({ theme, type }) => 
         type === 'up' ? theme.colors.success.main : theme.colors.attention.main
@@ -45,7 +45,7 @@ export const Icon = styled(Feather)<IconProps>`
 `;
 
 export const Title = styled.Text`
-    font-size: ${RFValue(14)}px;
+    font-size: ${RFValue(13)}px;
     font-family: ${({ theme }) => theme.fonts.regular};
 `;
 

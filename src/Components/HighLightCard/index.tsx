@@ -38,6 +38,7 @@ export function HighLightcard({
                 <Icon
                  name={icon[type]} 
                  type={type} 
+
                 />
             </Header>
 

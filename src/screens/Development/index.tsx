@@ -1,16 +1,30 @@
 import React from "react";
+import { 
+    Image,
+  } from 'react-native';
 
 import {
     Container,
     Title,
-} from './styles';
+    Introduction,
+    ImageContainer,
+} from './styles'
 
-export function Development() {
-    return(
-        <Container>
-            <Title>
-                Feature em desenvolvimento :)
-            </Title>
-        </Container>
-    )
-}
+import logo from '../../assets/icon_Polvvo_circulado.png';
+
+export function Development(){
+  return (
+    <>
+      <Container>
+        <Title>Área em desenvolvimento</Title>
+        <ImageContainer>
+          
+            <Image source={logo}  resizeMode={'center'}/>
+        </ImageContainer>
+        <Introduction>Caso queira saber mais, nos chame em nossas redes sociais</Introduction> 
+
+      </Container>
+    </>
+)};
+
+ 

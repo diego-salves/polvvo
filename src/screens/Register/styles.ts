@@ -41,3 +41,15 @@ export const TransactionsTypes = styled.View`
     margin-top: 8px;
     margin-bottom: 16px;
 `;
+
+export const LabelMeta = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.regular};
+    color: ${({ theme }) => theme.colors.text_dark};
+    font-size: ${RFValue(16)}px;
+`;
+
+export const LabelRecompensa = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.regular};
+    color: ${({ theme }) => theme.colors.text_dark};
+    font-size: ${RFValue(16)}px;
+`;

@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Alert } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FlatList } from 'react-native-gesture-handler';
-import { 
-    parseISO, 
-    format, 
-  } from 'date-fns';
 import { useTheme } from 'styled-components';
 import { useFocusEffect } from '@react-navigation/native'
 import { HighLightcard } from "../../components/HighLightCard";
 import { GoalCard, GoalCardProps } from "../../components/GoalCard";
+
 
 import {
     Container,
@@ -198,6 +194,7 @@ export function Dashboard(){
 
     return(
       <Container>
+
         {
             isLoading ? 
             <LoadContainer>
@@ -240,7 +237,7 @@ export function Dashboard(){
                     />
                     <HighLightcard
                         type="total"
-                        title="Total" 
+                        title="Recompensa atingida" 
                         amount={highlightData.total.amount} 
                         lastTransaction={highlightData.total.lastTransaction}
                     />
