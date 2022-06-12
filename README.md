@@ -11,3 +11,9 @@ Como o projeto não seguiu adiante disponibilizo o projeto com todos os dados ex
 Link para imagens do projeto no Figma:
 
 https://www.figma.com/file/1JHDTzEHTr6I7jKyNEWMfk/POLVVO?node-id=351%3A3234
+
+![Screenshot from 2022-06-12 00-47-03](https://user-images.githubusercontent.com/66186540/173213505-25bedef4-7a7d-47a8-bf8b-f1e1e11e2432.png)
+
+![Screenshot from 2022-06-12 00-48-21](https://user-images.githubusercontent.com/66186540/173213531-7394a756-351c-4e54-9d10-296e937d8d50.png)
+
+![Screenshot from 2022-06-12 00-48-48](https://user-images.githubusercontent.com/66186540/173213532-72d13365-f814-4f24-9a01-0958b35abfae.png)
