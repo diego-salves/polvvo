@@ -42,8 +42,8 @@ function AuthProvider({ children }: AuthProviderProps ){
     
     async function signInWithGoogle() {
         try{
-            const CLIENT_ID = '810929229593-ohb7t3iig0eedus5b1ihb8suok0akbap.apps.googleusercontent.com';
-            const REDIRECT_URI = 'https://auth.expo.io/@diego108/polvvo';
+            const CLIENT_ID = 'your_client_id';
+            const REDIRECT_URI = 'https://auth.expo.io/your-uri';
             const RESPONSE_TYPE = 'token';
             const SCOPE = encodeURI('profile email');
 
